@@ -967,6 +967,10 @@ PrefabInstance:
       propertyPath: ExplosionRadius
       value: 25
       objectReference: {fileID: 0}
+    - target: {fileID: 8405727482037029873, guid: 556d9e06a4841d6409ca440b0796500a, type: 3}
+      propertyPath: _explosionForce
+      value: 250
+      objectReference: {fileID: 0}
     - target: {fileID: 9133216853732275504, guid: 556d9e06a4841d6409ca440b0796500a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.11

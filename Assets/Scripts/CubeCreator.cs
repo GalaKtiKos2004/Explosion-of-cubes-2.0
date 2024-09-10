@@ -29,16 +29,18 @@ public class CubeCreator : MonoBehaviour
         _cubes.Remove(cube);
     }
 
-    private void Create(Cube explodedCube)
+    private void Create(Cube explodedCube, int cubesCount)
     {
-        Cube cube = Instantiate(explodedCube, explodedCube.transform.position, Quaternion.identity);
-        _cubes.Add(cube);
-        cube.Dividing += Create;
-        cube.Removing += DeleteCube;
-        cube.Init();
+        for (int i = 0; i < cubesCount; i++)
+        {
+            Cube cube = Instantiate(explodedCube, explodedCube.transform.position, Quaternion.identity);
+            _cubes.Add(cube);
+            cube.Dividing += Create;
+            cube.Removing += DeleteCube;
+            cube.Init(explodedCube.ChanceCreate);
 
-        Rigidbody cubeRigidbody = cube.GetComponent<Rigidbody>();
-        if (cubeRigidbody != null)
-            _exploder.Explode(cubeRigidbody, cubeRigidbody.transform.position, explodedCube.ExplosionForce, explodedCube.ExplosionRadius);
+            if (cube.Rigidbody != null)
+                _exploder.Explode(cube.Rigidbody, cube.transform.position, explodedCube.ExplosionForce, explodedCube.ExplosionRadius);
+        }
     }
 }

@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class CubeCreator : MonoBehaviour
 {
-    [SerializeField] private Exploder _exploder;
     [SerializeField] private List<Cube> _cubes;
 
     private void OnEnable()
@@ -27,6 +26,8 @@ public class CubeCreator : MonoBehaviour
     private void DeleteCube(Cube cube)
     {
         _cubes.Remove(cube);
+        cube.Removing -= DeleteCube;
+        cube.Dividing -= Create;
     }
 
     private void Create(Cube explodedCube, int cubesCount)
@@ -37,10 +38,7 @@ public class CubeCreator : MonoBehaviour
             _cubes.Add(cube);
             cube.Dividing += Create;
             cube.Removing += DeleteCube;
-            cube.Init(explodedCube.ChanceCreate);
-
-            if (cube.Rigidbody != null)
-                _exploder.Explode(cube.Rigidbody, cube.transform.position, explodedCube.ExplosionForce, explodedCube.ExplosionRadius);
+            cube.Init(explodedCube.ChanceCreate, cube.ExplosionForce, cube.ExplosionRadius);
         }
     }
 }

@@ -40,12 +40,13 @@ public class Cube : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void Init(int chanceCreate)
+    public void Init(int chanceCreate, float explosionForce, float explosionRadius)
     {
         transform.localScale /= _scaleDivider;
         _chanceCreate = chanceCreate / _chanceDivider;
         _explosionForce *= _scaleDivider;
         _explosionRadius *= _scaleDivider;
+        _exploder.Explode(Rigidbody, gameObject.transform.position, explosionForce, explosionRadius);
     }
 
     private void Explode()
@@ -58,10 +59,7 @@ public class Cube : MonoBehaviour
         }
         else
         {
-            List<Rigidbody> explodableObjects = GetExolodableObjects();
-
-            foreach (var explodableObject in explodableObjects)
-                _exploder.Explode(explodableObject, transform.position, ExplosionForce, ExplosionRadius);
+            _exploder.Explode(GetExolodableObjects(), transform.position, ExplosionForce, ExplosionRadius);
         }
 
         Removing?.Invoke(this);
